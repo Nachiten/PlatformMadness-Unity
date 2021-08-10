@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,8 +6,6 @@ public class PlayerMovement : MonoBehaviour
     public float speedY = 350.0f;
     public float gravity = 4f;
 
-    bool tocandoPiso = false;
-
     private Rigidbody2D rigidBody;
 
     void Awake()
@@ -17,47 +13,55 @@ public class PlayerMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         rigidBody.gravityScale = gravity;
 
         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speedX, rigidBody.velocity.y);
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && colisionaConPiso())
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, speedY);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Vector3 origenRayoIzquierda = new Vector3(transform.position.x - transform.localScale.x / 2, transform.position.y, transform.position.z);
-        Vector3 direccionRayo = transform.TransformDirection(Vector3.down);
+    private bool colisionaConPiso() {
 
-        RaycastHit hitInfo;
+        float offsetX = 0.085f;
+        float offsetY = 0.25f;
 
-        if (Physics.Raycast(origenRayoIzquierda, direccionRayo, out hitInfo, Mathf.Infinity))
-        {
-            Debug.DrawRay(origenRayoIzquierda, direccionRayo * hitInfo.distance, Color.green, 3);
-            Debug.Log("Raycast DID hit");
-        }
+        Vector2 origenRayoIzquierda = new Vector3(transform.position.x - transform.localScale.x / 2 + offsetX, transform.position.y);
+        Vector2 origenRayoDerecha = new Vector3(transform.position.x + transform.localScale.x / 2 - offsetX, transform.position.y);
+        Vector2 direccionRayo = transform.TransformDirection(Vector2.down);
+        float rayDistance = transform.localScale.y / 2 + offsetY;
+
+        // Create bitmask
+        int layer = 1 << 6;
+
+        // This would cast rays only against colliders in layer 6.
+        // But instead I want collide against everything except layer 6. The ~ operator does this, it inverts a bitmask.
+        // (layer 6 is the player)
+        layer = ~layer;
+
+        RaycastHit2D hitIzquierda = Physics2D.Raycast(origenRayoIzquierda, direccionRayo, rayDistance, layer);
+        RaycastHit2D hitDerecha = Physics2D.Raycast(origenRayoDerecha, direccionRayo, rayDistance, layer);
+
+        bool tocoRayoIzquierda = hitIzquierda.collider != null && hitIzquierda.collider.gameObject.CompareTag("Mapa");
+        bool tocoRayoDerecha = hitDerecha.collider != null && hitDerecha.collider.gameObject.CompareTag("Mapa");
+
+        /*
+        if (tocoRayoIzquierda)
+            Debug.DrawRay(origenRayoIzquierda, direccionRayo * rayDistance, Color.green, 3);
         else
-        {
-            Debug.DrawRay(origenRayoIzquierda, direccionRayo * 30, Color.red, 3);
-            Debug.Log("Raycast DID NOT hit");
-        }
+            Debug.DrawRay(origenRayoIzquierda, direccionRayo * rayDistance, Color.red, 3);
 
-        // Solo estoy tocando el piso si el objeto es mapa, y si es desde arriba
-        //if (collision.gameObject.CompareTag("Mapa"))
-        //{
-        //    tocandoPiso = true;
-        //}
+        if (tocoRayoDerecha)
+            Debug.DrawRay(origenRayoDerecha, direccionRayo * rayDistance, Color.green, 3);
+        else
+            Debug.DrawRay(origenRayoDerecha, direccionRayo * rayDistance, Color.red, 3);
+        */
+
+        return tocoRayoIzquierda || tocoRayoDerecha;
     }
-
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Mapa"))
-    //        tocandoPiso = false;
-    //}
 }
 

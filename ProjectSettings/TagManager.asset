@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Mapa
+  - Jugador
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Mapa
   - Water
   - UI
-  - 
+  - Jugador
   - 
   - 
   - 
