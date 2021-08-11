@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool colisionaConPiso() {
 
-        float offsetX = 0.085f;
+        float offsetX = 0.26f;
         float offsetY = 0.25f;
 
         Vector2 origenRayoIzquierda = new Vector3(transform.position.x - transform.localScale.x / 2 + offsetX, transform.position.y);
@@ -49,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
         bool tocoRayoIzquierda = hitIzquierda.collider != null && hitIzquierda.collider.gameObject.CompareTag("Mapa");
         bool tocoRayoDerecha = hitDerecha.collider != null && hitDerecha.collider.gameObject.CompareTag("Mapa");
 
-        /*
         if (tocoRayoIzquierda)
             Debug.DrawRay(origenRayoIzquierda, direccionRayo * rayDistance, Color.green, 3);
         else
@@ -59,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.DrawRay(origenRayoDerecha, direccionRayo * rayDistance, Color.green, 3);
         else
             Debug.DrawRay(origenRayoDerecha, direccionRayo * rayDistance, Color.red, 3);
-        */
+        
 
         return tocoRayoIzquierda || tocoRayoDerecha;
     }

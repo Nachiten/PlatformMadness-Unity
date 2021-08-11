@@ -13,8 +13,6 @@ public class KeyManager : MonoBehaviour
 
         // Obtengo el nombre de key a partir de su nombre
         keyNumber = keyName.Substring(3, keyName.Length - 3);
-
-        Debug.Log("keyNumber: " + keyNumber);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
