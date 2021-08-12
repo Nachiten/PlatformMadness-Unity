@@ -4820,6 +4820,8 @@ MonoBehaviour:
   clipsSonido:
   - {fileID: 8300000, guid: 4e1df4e58305a744e8fb4b87bcbab571, type: 3}
   - {fileID: 8300000, guid: fc11ac146528fa145932f57ef186d167, type: 3}
+  - {fileID: 8300000, guid: 962c02652ea9b7248aaa8ba83801b2b4, type: 3}
+  - {fileID: 8300000, guid: e6842670c39ca4f4a81460003a736774, type: 3}
 --- !u!82 &7907269023176003739
 AudioSource:
   m_ObjectHideFlags: 0

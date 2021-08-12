@@ -118,8 +118,6 @@ public class ManejarMenu : MonoBehaviour
 
     void Update()
     {
-        index = SceneManager.GetActiveScene().buildIndex;
-
         if (index == 0) return;
 
         bool animacionEnEjecucion = GameObject.Find("Canvas Menu").GetComponent<LeanTweenManager>().animacionEnEjecucion;
@@ -138,20 +136,26 @@ public class ManejarMenu : MonoBehaviour
 
         if (menuActivo)
         {
-            //Debug.Log("[ManejarMenu] Abriendo menu.");
+            // Abro el menu
             menu.SetActive(true);
             tweenManager.abrirMenu();
         }
         else 
         {
-            //Debug.Log("[ManejarMenu] Cerrando menu.");
+            // Cierro el menu
             tweenManager.cerrarMenu();
         }
 
+        // Cierro las opciones si estaban activas en ambos casos
         if (opcionesActivas) 
         {
             tweenManager.cerrarOpciones();
             opcionesActivas = false;
+        }
+
+        // Si no estoy en el menu
+        if (index != 0) {
+            GameObject.Find("GameManager").GetComponent<GameManager>().manejarPausa();
         }
     }
 

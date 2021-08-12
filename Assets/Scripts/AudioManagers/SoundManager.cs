@@ -34,7 +34,9 @@ public class SoundManager : MonoBehaviour
         try
         {
             sourceSonido.clip = clipsSonido[sonido];
-            sourceSonido.Play();
+
+            if (!sourceSonido.isPlaying)
+                sourceSonido.Play();
         }
         catch (Exception e) {
             Debug.LogError("[SoundManager] Error: " + e.Message);
