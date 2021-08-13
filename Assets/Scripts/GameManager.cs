@@ -7,11 +7,15 @@ public class GameManager : MonoBehaviour
 {
     TMP_Text textoNivel;
     
+    /* -------------------------------------------------------------------------------- */
+    
     private void Awake()
     {
         textoNivel = GameObject.Find("TextoNivel").GetComponent<TMP_Text>();
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     void Start()
     {
         string nombreNivel = SceneManager.GetActiveScene().name;
@@ -19,6 +23,8 @@ public class GameManager : MonoBehaviour
         textoNivel.text = nombreNivel;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     public void manejarPausa() 
     {
         GameObject.Find("Jugador").GetComponent<PlayerMovement>().manejarPausa();

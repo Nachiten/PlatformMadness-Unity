@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Mapa
   - Jugador
+  - Opciones
+  - WallStick
   layers:
   - Default
   - TransparentFX

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -12,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     LayerMask layer;
 
-    Vector3 ultimaVelocidad = Vector3.zero;
+    Vector2 ultimaVelocidad = Vector2.zero;
     public float gravity = 2.7f;
 
     bool pausa = false;
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        rigidBody.gravityScale = gravity;
         layer = LayerMask.GetMask("Mapa");
     }
 
@@ -27,8 +29,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (pausa)
             return;
-
-        rigidBody.gravityScale = gravity;
 
         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speedX, rigidBody.velocity.y);
 
@@ -55,10 +55,19 @@ public class PlayerMovement : MonoBehaviour
             Debug.DrawLine(new Vector2(pointA.x, pointB.y), pointB, Color.green, 5);
             return true;
         }
-        
+
+        if (tocandoParedStick && !saltoEnActual)
+        {
+            rigidBody.gravityScale = gravity;
+            saltoEnActual = true;
+            return true;
+        }
+
         return false;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     public void manejarPausa() {
         pausa = !pausa;
 
@@ -66,13 +75,39 @@ public class PlayerMovement : MonoBehaviour
         {
             // Entro en pausa y guardo estado anterior
             ultimaVelocidad = rigidBody.velocity;
-            rigidBody.velocity = Vector3.zero;
+            rigidBody.velocity = Vector2.zero;
             rigidBody.gravityScale = 0;
         }
         else 
         {
             // Salgo de pausa y restauro estado anterior
             rigidBody.velocity = ultimaVelocidad;
+            rigidBody.gravityScale = gravity;
+        }
+    }
+
+    /* -------------------------------------------------------------------------------- */
+
+    bool tocandoParedStick = false;
+    bool saltoEnActual = false;
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("WallStick") && !tocandoParedStick)
+        {
+            Debug.Log("Toco wallStick");
+            rigidBody.gravityScale = 0;
+            rigidBody.velocity = Vector2.zero;
+            tocandoParedStick = true;
+            saltoEnActual = false;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("WallStick"))
+        {
+            tocandoParedStick = false;
             rigidBody.gravityScale = gravity;
         }
     }
