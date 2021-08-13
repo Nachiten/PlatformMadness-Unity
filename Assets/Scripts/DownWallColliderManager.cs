@@ -12,7 +12,7 @@ public class DownWallColliderManager : MonoBehaviour
 
         if (tileMapCollider == null)
         {
-            Debug.LogError("[UpWallColliderManager] No se encuentra el tilemap asociado");
+            Debug.LogError("[DownWallColliderManager] No se encuentra el tilemap asociado");
             return;
         }
 
