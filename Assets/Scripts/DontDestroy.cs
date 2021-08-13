@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class dontDestroy : MonoBehaviour
+public class DontDestroy : MonoBehaviour
 {
     static bool flag = true;
 
