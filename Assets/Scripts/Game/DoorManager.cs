@@ -1,14 +1,23 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DoorManager : MonoBehaviour
 {
-    bool doorOpen = false;
+    //bool doorOpen = false;
 
     SpriteRenderer lockObject;
     SpriteRenderer lockBackground;
     GameObject doorClosedObject;
     SoundManager soundManager;
+
+    BoxCollider2D colliderObject;
+
+    LevelLoader levelLoader;
+
+    public bool esPuertaAlSiguienteNivel = false;
+
+    int indexActual;
 
     void Awake()
     {
@@ -30,7 +39,18 @@ public class DoorManager : MonoBehaviour
 
         try
         {
-            if (doorClosedObject == null) {
+            colliderObject = GetComponent<BoxCollider2D>();
+
+            colliderObject.isTrigger = false;
+
+            soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+
+            levelLoader = GameObject.Find("GameManager").GetComponent<LevelLoader>();
+
+            indexActual = SceneManager.GetActiveScene().buildIndex;
+
+            if (doorClosedObject == null) 
+            {
                 throw new Exception("doorClosedObject");
             }
             if (lockObject == null)
@@ -41,34 +61,36 @@ public class DoorManager : MonoBehaviour
             {
                 throw new Exception("lockBackground");
             }
+
+            
         }
         catch (Exception e) {
             Debug.LogError("[DoorManager] Error al asignar variable: " + e.Message);
         }
-
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     public void abrirPuerta()
     {
-        doorOpen = true;
+        //doorOpen = true;
         doorClosedObject.SetActive(false);
+        colliderObject.isTrigger = true;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (doorOpen)
-        {
-            Debug.Log("La puerta esta ABIERTA");
-            // TODO | Pasar a siguiente nivel
-        }
-        else
-        {
-            Debug.Log("La puerta esta CERRADA");
-            soundManager.reproducirSonido(3);
-            if (!animacionEnEjecucion)
-                ponerCandado();
-        }
+        if (!esPuertaAlSiguienteNivel)
+            return;
+        
+        Debug.Log("La puerta esta ABIERTA");
+        levelLoader.cargarNivel(indexActual + 1);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("La puerta esta CERRADA");
+        soundManager.reproducirSonido(3);
+        if (!animacionEnEjecucion)
+            ponerCandado();
     }
 
     float animationTime = 0.3f;

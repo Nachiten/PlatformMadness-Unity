@@ -4,16 +4,16 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speedX = 8f;
     public float speedY = 14f;
-    public float gravity = 2.7f;
-
+    
     float offsetX = 0.55f;
     float offsetY = 0.09f;
 
-    LayerMask layer;
-
     Rigidbody2D rigidBody;
 
+    LayerMask layer;
+
     Vector3 ultimaVelocidad = Vector3.zero;
+    public float gravity = 2.7f;
 
     bool pausa = false;
 
@@ -32,7 +32,9 @@ public class PlayerMovement : MonoBehaviour
 
         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speedX, rigidBody.velocity.y);
 
-        if (Input.GetKey(KeyCode.Space) && colisionaConPiso())
+        bool tocoTeclaDeSalto = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
+
+        if (tocoTeclaDeSalto && colisionaConPiso())
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, speedY);
         }
@@ -56,8 +58,6 @@ public class PlayerMovement : MonoBehaviour
         
         return false;
     }
-
-    
 
     public void manejarPausa() {
         pausa = !pausa;
