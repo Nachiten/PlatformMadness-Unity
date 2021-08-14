@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Buttons : MonoBehaviour
 {
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     int nivelACargar = 1;
 
     static PopUpsMenu codigoPopUpsMenu;
@@ -139,7 +140,7 @@ public class Buttons : MonoBehaviour
     /* ------------------------------------ AUXILIARES ------------------------------------ */
     /* ------------------------------------------------------------------------------------ */
 
-    public void loadLevel(int index) 
+    private void loadLevel(int index) 
     {
         LevelLoader codigoLevelLoader = GameObject.Find("GameManager").GetComponent<LevelLoader>();
 
@@ -148,5 +149,5 @@ public class Buttons : MonoBehaviour
 
     /* ------------------------------------------------------------------------------------ */
 
-    void reproducirSonidoClickBoton() { codigoSoundManager.reproducirSonido(1); }
+    private void reproducirSonidoClickBoton() { codigoSoundManager.reproducirSonido(1); }
 }

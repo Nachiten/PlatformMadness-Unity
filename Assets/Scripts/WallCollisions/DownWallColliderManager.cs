@@ -6,6 +6,8 @@ public class DownWallColliderManager : MonoBehaviour
 
     CompositeCollider2D tileMapCollider;
 
+    /* -------------------------------------------------------------------------------- */
+    
     void Awake()
     {
         tileMapCollider = GameObject.Find("Tilemap_DownWall").GetComponent<CompositeCollider2D>();
@@ -19,6 +21,8 @@ public class DownWallColliderManager : MonoBehaviour
         tileMapCollider.isTrigger = true;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         tileMapCollider.isTrigger = false;
@@ -26,14 +30,14 @@ public class DownWallColliderManager : MonoBehaviour
         collisionsCounter++;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
         collisionsCounter--;
-        if (collisionsCounter == 0)
-        {
-            Debug.Log("Desactivando collider");
-            tileMapCollider.isTrigger = true;
-        }
-
+        if (collisionsCounter != 0) return;
+        
+        Debug.Log("Desactivando collider");
+        tileMapCollider.isTrigger = true;
     }
 }

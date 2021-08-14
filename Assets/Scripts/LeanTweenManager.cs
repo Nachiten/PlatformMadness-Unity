@@ -15,7 +15,7 @@ public class LeanTweenManager : MonoBehaviour
     static bool variablesSeteadas = false;
     static int indexActual = -1;
 
-    float tiempoAnimacionBotonesMenu = 0.2f, tiempoAnimacionPanelMenu = 0.15f, tiempoAnimacionMenus = 0.5f, posicionAfuera = 1920;
+    const float tiempoAnimacionBotonesMenu = 0.2f, tiempoAnimacionPanelMenu = 0.15f, tiempoAnimacionMenus = 0.5f, posicionAfuera = 1920;
 
     List<GameObject> botones;
 
@@ -23,6 +23,8 @@ public class LeanTweenManager : MonoBehaviour
 
     /* -------------------------------------------------------------------------------- */
 
+    #region OnEnableDisable
+    
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -33,6 +35,8 @@ public class LeanTweenManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    #endregion
+    
     /* -------------------------------------------------------------------------------- */
 
     // Setup que se hace una sola vez
@@ -257,7 +261,7 @@ public class LeanTweenManager : MonoBehaviour
     // ------------------------------ ANIMACIONES ABRIR MENUS ------------------------------ // 
     /* ------------------------------------------------------------------------------------- */
 
-    public void abrirMenu(GameObject menuAPoner, int signo)
+    private void abrirMenu(GameObject menuAPoner, int signo)
     {
         animacionEnEjecucion = true;
 
@@ -316,7 +320,7 @@ public class LeanTweenManager : MonoBehaviour
     // ------------------------------ ANIMACIONES CERRAR MENUS ------------------------------ // 
     /* -------------------------------------------------------------------------------------- */
 
-    public void cerrarMenu(GameObject menuACerrar, int signo)
+    private void cerrarMenu(GameObject menuACerrar, int signo)
     {
         animacionEnEjecucion = true;
 

@@ -6,7 +6,7 @@ public class EditorTools : EditorWindow
 {
     // Mostrar Ventana
     [MenuItem("Window/[EditorTools]")]
-    public static void ShowWindow()
+    public static void showWindow()
     {
         GetWindow<EditorTools>("EditorTools");
     }
@@ -50,7 +50,7 @@ public class EditorTools : EditorWindow
 
     void mostrarMenuViajarAEscena() 
     {
-        for (int i = 0; i < cantidadEscenas; i++)
+        for (int i = 0;i < cantidadEscenas; i++)
         {
             string nombreEscena = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
 

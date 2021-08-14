@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class DoorManager : MonoBehaviour
 {
-    //bool doorOpen = false;
-
+    public bool esPuertaAlSiguienteNivel = false;
+    
     SpriteRenderer lockObject;
     SpriteRenderer lockBackground;
     GameObject doorClosedObject;
@@ -15,30 +15,36 @@ public class DoorManager : MonoBehaviour
 
     LevelLoader levelLoader;
 
-    public bool esPuertaAlSiguienteNivel = false;
-
     int indexActual;
+    
+    const float animationTime = 0.3f;
+    const float animationsDelay = 0.6f;
+    const float alphaFinal = 0.35f;
+
+    readonly Color backgroundColor = new Color(200,200,200);
+
+    bool animacionEnEjecucion = false;
 
     void Awake()
     {
-        foreach (Transform unHijo in transform)
-        {
-            if (unHijo.gameObject.name == "DoorClosed")
-            {
-                doorClosedObject = unHijo.gameObject;
-            }
-            if (unHijo.gameObject.name == "Lock")
-            {
-                lockObject = unHijo.gameObject.GetComponent<SpriteRenderer>();
-            }
-            if (unHijo.gameObject.name == "LockBackground")
-            {
-                lockBackground = unHijo.gameObject.GetComponent<SpriteRenderer>();
-            }
-        }
-
         try
         {
+            foreach (Transform unHijo in transform)
+            {
+                switch (unHijo.gameObject.name)
+                {
+                    case "DoorClosed":
+                        doorClosedObject = unHijo.gameObject;
+                        break;
+                    case "Lock":
+                        lockObject = unHijo.gameObject.GetComponent<SpriteRenderer>();
+                        break;
+                    case "LockBackground":
+                        lockBackground = unHijo.gameObject.GetComponent<SpriteRenderer>();
+                        break;
+                }
+            }
+            
             colliderObject = GetComponent<BoxCollider2D>();
 
             colliderObject.isTrigger = false;
@@ -61,21 +67,22 @@ public class DoorManager : MonoBehaviour
             {
                 throw new Exception("lockBackground");
             }
-
-            
         }
         catch (Exception e) {
             Debug.LogError("[DoorManager] Error al asignar variable: " + e.Message);
         }
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     public void abrirPuerta()
     {
-        //doorOpen = true;
         doorClosedObject.SetActive(false);
         colliderObject.isTrigger = true;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!esPuertaAlSiguienteNivel)
@@ -85,7 +92,9 @@ public class DoorManager : MonoBehaviour
         levelLoader.cargarNivel(indexActual + 1);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    /* -------------------------------------------------------------------------------- */
+    
+    private void OnCollisionEnter2D()
     {
         Debug.Log("La puerta esta CERRADA");
         soundManager.reproducirSonido(3);
@@ -93,14 +102,14 @@ public class DoorManager : MonoBehaviour
             ponerCandado();
     }
 
-    float animationTime = 0.3f;
-    float animationsDelay = 0.6f;
-    float alphaFinal = 0.35f;
+    /* -------------------------------------------------------------------------------- */
+    
+    #region AnimacionPonerCandado
 
-    Color backgroundColor = new Color(200,200,200);
-
-    bool animacionEnEjecucion = false;
-
+    /* ----------------------------------------------------------------------------------- */
+    // ----------------------------- ANIMACION PONER CANDADO ----------------------------- //
+    /* ----------------------------------------------------------------------------------- */
+    
     void ponerCandado() {
         animacionEnEjecucion = true;
         LeanTween.value(gameObject, 0, alphaFinal, animationTime).setOnUpdate(cambiarAlfaBackground).setOnComplete(quitarCandado);
@@ -113,7 +122,7 @@ public class DoorManager : MonoBehaviour
 
         lockBackground.color = color;
     }
-
+    
     void cambiarAlfaLock(float val)
     {
         Color color = new Color(backgroundColor.r, backgroundColor.g, backgroundColor.b, val);
@@ -121,6 +130,14 @@ public class DoorManager : MonoBehaviour
         lockObject.color = color;
     }
 
+    #endregion
+
+    #region AnimacionQuitarCandado
+    
+    /* ------------------------------------------------------------------------------------ */
+    // ----------------------------- ANIMACION QUITAR CANDADO ----------------------------- //
+    /* ------------------------------------------------------------------------------------ */
+    
     void quitarCandado() 
     {
         LeanTween.value(gameObject, alphaFinal, 0, animationTime).setOnUpdate(cambiarAlfaBackground).setDelay(animationsDelay);
@@ -131,4 +148,6 @@ public class DoorManager : MonoBehaviour
     {
         animacionEnEjecucion = false;
     }
+    
+    #endregion
 }

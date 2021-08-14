@@ -6,6 +6,8 @@ public class UpWallColliderManager : MonoBehaviour
 
     CompositeCollider2D tileMapCollider;
 
+    /* -------------------------------------------------------------------------------- */
+    
     void Awake()
     {
         tileMapCollider = GameObject.Find("Tilemap_UpWall").GetComponent<CompositeCollider2D>();
@@ -19,12 +21,16 @@ public class UpWallColliderManager : MonoBehaviour
         tileMapCollider.isTrigger = true;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         tileMapCollider.isTrigger = false;
         collisionsCounter++;
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
         collisionsCounter--;

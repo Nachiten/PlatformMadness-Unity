@@ -23,7 +23,7 @@ public class ManejarMenu : MonoBehaviour
     bool menuActivo = false, opcionesActivas = false, creditosActivos = false;
 
     // Strings utilizados
-    string continuar = "CONTINUAR", comenzar = "COMENZAR";
+    const string continuar = "CONTINUAR", comenzar = "COMENZAR";
 
     // Index de escena actual
     int index;
@@ -93,7 +93,7 @@ public class ManejarMenu : MonoBehaviour
         {
             textoBoton.text = continuar;
 
-            // Oculto todo de una patada pq se esta mostrando la pantalla de carga
+            // Oculto las cosas de una patada pq se esta mostrando la pantalla de carga
             menu.SetActive(false);
             panelMenu.SetActive(false);
         }
@@ -155,7 +155,7 @@ public class ManejarMenu : MonoBehaviour
 
         // Si no estoy en el menu
         if (index != 0) {
-            GameObject.Find("GameManager").GetComponent<GameManager>().manejarPausa();
+            GameManager.manejarPausa();
         }
     }
 
@@ -185,6 +185,5 @@ public class ManejarMenu : MonoBehaviour
         
         else
             tweenManager.cerrarCreditos();
-        
     }
 }

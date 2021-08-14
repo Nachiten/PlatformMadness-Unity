@@ -2,10 +2,12 @@
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Serialization;
 
 public class PopUpsMenu : MonoBehaviour
 {
-    public Texture[] Textura;
+    [FormerlySerializedAs("Textura")] 
+    public Texture[] texturas;
 
     static int popUpOpen = 0, currentImage = 0;
     static bool variablesSeteadas = false;
@@ -14,7 +16,7 @@ public class PopUpsMenu : MonoBehaviour
     static GameObject botonNo, popUp;
     static TMP_Text textoPrincipal, textoBanner, botonSiTexto;
 
-    float tiempoAnimacion = 0.18f;
+    const float tiempoAnimacion = 0.18f;
 
     /* -------------------------------------------------------------------------------- */
 
@@ -66,7 +68,7 @@ public class PopUpsMenu : MonoBehaviour
             Debug.LogError("[PopUpsMenu] Error al asignar variable: " + e.Message);
         }
 
-        if (Textura == null || Textura.Length != 5) {
+        if (texturas == null || texturas.Length != 5) {
             Debug.LogError("[PopUpsMenu] No estan seteadas correcatmente todas las variables");
         }
     }
@@ -121,7 +123,7 @@ public class PopUpsMenu : MonoBehaviour
                 break;
         }
 
-        simbolo.texture = Textura[currentImage];
+        simbolo.texture = texturas[currentImage];
     }
 
     /* -------------------------------------------------------------------------------- */
@@ -143,7 +145,7 @@ public class PopUpsMenu : MonoBehaviour
 
     /* -------------------------------------------------------------------------------- */
 
-    public void borrarTodasLasKeys()
+    void borrarTodasLasKeys()
     {
         Debug.LogWarning("[PopUpsMenu] BORRANDO TODAS LAS KEYS !!!!");
         PlayerPrefs.DeleteAll();

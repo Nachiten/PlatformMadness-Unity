@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,15 +24,8 @@ public class GameManager : MonoBehaviour
 
     /* -------------------------------------------------------------------------------- */
     
-    public void manejarPausa() 
+    public static void manejarPausa() 
     {
         GameObject.Find("Jugador").GetComponent<PlayerMovement>().manejarPausa();
-    }
-
-    /* -------------------------------------------------------------------------------- */
-
-    public void ganoJuego()
-    {
-        throw new NotImplementedException();
     }
 }

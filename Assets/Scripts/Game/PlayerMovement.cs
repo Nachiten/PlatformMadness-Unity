@@ -1,23 +1,26 @@
-using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speedX = 8f;
     public float speedY = 14f;
+    public float gravity = 2.7f;
     
-    float offsetX = 0.55f;
-    float offsetY = 0.09f;
+    const float offsetX = 0.55f;
+    const float offsetY = 0.09f;
 
     Rigidbody2D rigidBody;
 
     LayerMask layer;
 
     Vector2 ultimaVelocidad = Vector2.zero;
-    public float gravity = 2.7f;
-
+    
     bool pausa = false;
+    bool tocandoParedStick = false;
+    bool saltoEnActual = false;
 
+    /* -------------------------------------------------------------------------------- */
+    
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -25,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         layer = LayerMask.GetMask("Mapa");
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     void FixedUpdate()
     {
         if (pausa)
@@ -40,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     private bool colisionaConPiso() 
     {
         Vector3 pointA = new Vector3(transform.position.x + offsetX, transform.position.y - transform.localScale.y / 2);
@@ -87,9 +94,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /* -------------------------------------------------------------------------------- */
-
-    bool tocandoParedStick = false;
-    bool saltoEnActual = false;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -103,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /* -------------------------------------------------------------------------------- */
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("WallStick"))

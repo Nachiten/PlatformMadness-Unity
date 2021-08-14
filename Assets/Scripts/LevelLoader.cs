@@ -47,7 +47,6 @@ public class LevelLoader : MonoBehaviour
             {
                 throw new Exception("panelCargaColor");
             }
-
             if (restoPanelCarga == null)
             {
                 throw new Exception("restoPanelCarga");
@@ -60,13 +59,11 @@ public class LevelLoader : MonoBehaviour
             {
                 throw new Exception("textoNivel");
             }
-
         }
         catch (Exception e)
         {
             Debug.LogError("[LevelLoader] Error al asignar variable: " + e.Message);
         }
-        
     }
 
     /* -------------------------------------------------------------------------------- */
@@ -85,8 +82,7 @@ public class LevelLoader : MonoBehaviour
     #endregion
 
     /* -------------------------------------------------------------------------------- */
-
-    // Llamar a Corutina
+    
     public void cargarNivel(int index)
     {
         //GameObject.Find("SoundManager").GetComponent<SoundManager>().reproducirSonido(1);
@@ -142,8 +138,8 @@ public class LevelLoader : MonoBehaviour
     // ------------------------------ ANIMACION PONER PANEL CARGA ------------------------------ // 
     /* ----------------------------------------------------------------------------------------- */
 
-    float tiempoAnimacionColorPanel = 0.3f; // 0.3
-    float tiempoAnimacionRestoPanel = 0.2f; // 0.2
+    const float tiempoAnimacionColorPanel = 0.3f; // 0.3
+    const float tiempoAnimacionRestoPanel = 0.2f; // 0.2
 
     void ponerPanelCarga()
     {
@@ -179,7 +175,19 @@ public class LevelLoader : MonoBehaviour
         LeanTween.scaleY(restoPanelCarga, 1, tiempoAnimacionRestoPanel).setOnComplete(completarCargaNivel);
     }
 
-    void completarCargaNivel() { StartCoroutine(cargarAsincronizadamente()); }
+    void completarCargaNivel()
+    {
+        // No existe la escena
+        if (indexACargar > SceneManager.sceneCountInBuildSettings - 1)
+        {
+            textoNivel.text = "No existe la escena que se quiere cargar. Por favor reinicie el juego";
+        }
+        // Si existe la escena
+        else
+        {
+            StartCoroutine(cargarAsincronizadamente());
+        }
+    }
 
     #endregion
 
