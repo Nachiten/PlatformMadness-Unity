@@ -63,14 +63,12 @@ public class PlayerMovement : MonoBehaviour
             return true;
         }
 
-        if (tocandoParedStick && !saltoEnActual)
-        {
-            rigidBody.gravityScale = gravity;
-            saltoEnActual = true;
-            return true;
-        }
-
-        return false;
+        if (!tocandoParedStick || saltoEnActual) 
+            return false;
+        
+        rigidBody.gravityScale = gravity;
+        saltoEnActual = true;
+        return true;
     }
 
     /* -------------------------------------------------------------------------------- */
@@ -94,17 +92,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /* -------------------------------------------------------------------------------- */
+
+    public float tiempoResistencia = 0.8f;
+
+    bool puedeDespegarse = true;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("WallStick") && !tocandoParedStick)
         {
-            Debug.Log("Toco wallStick");
+            //Debug.Log("Toco wallStick");
             rigidBody.gravityScale = 0;
             rigidBody.velocity = Vector2.zero;
             tocandoParedStick = true;
             saltoEnActual = false;
+            LeanTween.value(gameObject, 0,tiempoResistencia, tiempoResistencia).setOnComplete(despegarDePared);
         }
+    }
+
+    void despegarDePared()
+    {
+        // TODO | Revisar que cuando entres a uno nuevo se cancele la operacion
+        rigidBody.gravityScale = gravity;
     }
 
     /* -------------------------------------------------------------------------------- */
