@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class UpWallColliderManager : MonoBehaviour
 {
-    static int collisionsCounter = 0;
-
     CompositeCollider2D tileMapCollider;
 
     /* -------------------------------------------------------------------------------- */
@@ -18,23 +16,20 @@ public class UpWallColliderManager : MonoBehaviour
             return;
         }
 
-        tileMapCollider.isTrigger = true;
+        tileMapCollider.isTrigger = false;
     }
 
     /* -------------------------------------------------------------------------------- */
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        tileMapCollider.isTrigger = false;
-        collisionsCounter++;
+        tileMapCollider.isTrigger = true;
     }
 
     /* -------------------------------------------------------------------------------- */
     
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collisionsCounter--;
-        if (collisionsCounter == 0) 
-            tileMapCollider.isTrigger = true;
+        tileMapCollider.isTrigger = false;
     }
 }

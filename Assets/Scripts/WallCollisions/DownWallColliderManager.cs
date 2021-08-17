@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class DownWallColliderManager : MonoBehaviour
 {
-    static int collisionsCounter = 0;
-
     CompositeCollider2D tileMapCollider;
 
     /* -------------------------------------------------------------------------------- */
@@ -25,19 +23,15 @@ public class DownWallColliderManager : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Activo collider
         tileMapCollider.isTrigger = false;
-        Debug.Log("Activando collider");
-        collisionsCounter++;
     }
 
     /* -------------------------------------------------------------------------------- */
     
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collisionsCounter--;
-        if (collisionsCounter != 0) return;
-        
-        Debug.Log("Desactivando collider");
+        // Desactivo collider
         tileMapCollider.isTrigger = true;
     }
 }

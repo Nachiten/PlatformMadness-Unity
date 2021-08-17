@@ -50,7 +50,6 @@ public class DoorManager : MonoBehaviour
             colliderObject.isTrigger = false;
 
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-
             levelLoader = GameObject.Find("GameManager").GetComponent<LevelLoader>();
 
             indexActual = SceneManager.GetActiveScene().buildIndex;

@@ -2,23 +2,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speedX = 8f;
-    public float speedY = 14f;
-    public float gravity = 2.7f;
-    
-    const float offsetX = 0.55f;
-    const float offsetY = 0.09f;
+    const float speedX = 8f, speedY = 14f, gravity = 2.7f, offsetXCollider = 0.55f, offsetYCollider = 0.09f, 
+        tiempoResistenciaStick = 0.85f, speedYStick = 0.5f;
 
+    float tiempoCooldownStick = 0;
+    
+    bool pausa = false, tocandoParedStick = false, saltoEnActual = false;
+    
     Rigidbody2D rigidBody;
 
     LayerMask layer;
 
     Vector2 ultimaVelocidad = Vector2.zero;
     
-    bool pausa = false;
-    bool tocandoParedStick = false;
-    bool saltoEnActual = false;
-
     /* -------------------------------------------------------------------------------- */
     
     void Awake()
@@ -45,27 +41,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    void Update()
+    {
+        if (tiempoCooldownStick <= 0 || rigidBody.gravityScale != 0)
+            return;
+        
+        tiempoCooldownStick -= Time.deltaTime;
+        
+        if (tiempoCooldownStick <= 0)
+        {
+            rigidBody.gravityScale = gravity;
+        }
+    }
+
     /* -------------------------------------------------------------------------------- */
     
-    private bool colisionaConPiso() 
+    private bool colisionaConPiso()
     {
-        Vector3 pointA = new Vector3(transform.position.x + offsetX, transform.position.y - transform.localScale.y / 2);
-        Vector3 pointB = new Vector3(transform.position.x - offsetX, transform.position.y - transform.localScale.y / 2 - offsetY);
+        Transform thisTransform = transform;
+        Vector3 scale = thisTransform.localScale;
+        Vector3 position = thisTransform.position;
+        
+        Vector3 pointACollider = new Vector3(position.x + offsetXCollider, position.y - scale.y / 2);
+        Vector3 pointBCollider = new Vector3(position.x - offsetXCollider, position.y - scale.y / 2 - offsetYCollider);
 
-        Collider2D checkeoDePiso = Physics2D.OverlapArea(pointA, pointB, layer);
+        Collider2D checkeoDePiso = Physics2D.OverlapArea(pointACollider, pointBCollider, layer);
 
+        // Si esta tocando el piso, puede saltar
         if (checkeoDePiso != null) 
         {
-            Debug.DrawLine(pointA, new Vector2(pointB.x, pointA.y), Color.green, 5);
-            Debug.DrawLine(pointA, new Vector2(pointA.x, pointB.y), Color.green, 5);
-            Debug.DrawLine(new Vector2(pointB.x, pointA.y), pointB, Color.green, 5);
-            Debug.DrawLine(new Vector2(pointA.x, pointB.y), pointB, Color.green, 5);
+            Debug.DrawLine(pointACollider, new Vector2(pointBCollider.x, pointACollider.y), Color.green, 5);
+            Debug.DrawLine(pointACollider, new Vector2(pointACollider.x, pointBCollider.y), Color.green, 5);
+            Debug.DrawLine(new Vector2(pointBCollider.x, pointACollider.y), pointBCollider, Color.green, 5);
+            Debug.DrawLine(new Vector2(pointACollider.x, pointBCollider.y), pointBCollider, Color.green, 5);
             return true;
         }
 
+        // Si no esta pegado a una pared sticky, no puede saltar
         if (!tocandoParedStick || saltoEnActual) 
             return false;
         
+        // Esta pegado a una pared sticky, puede saltar
         rigidBody.gravityScale = gravity;
         saltoEnActual = true;
         return true;
@@ -92,39 +109,30 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /* -------------------------------------------------------------------------------- */
-
-    public float tiempoResistencia = 0.8f;
-
-    bool puedeDespegarse = true;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("WallStick") && !tocandoParedStick)
-        {
-            //Debug.Log("Toco wallStick");
-            rigidBody.gravityScale = 0;
-            rigidBody.velocity = Vector2.zero;
-            tocandoParedStick = true;
-            saltoEnActual = false;
-            LeanTween.value(gameObject, 0,tiempoResistencia, tiempoResistencia).setOnComplete(despegarDePared);
-        }
-    }
-
-    void despegarDePared()
-    {
-        // TODO | Revisar que cuando entres a uno nuevo se cancele la operacion
-        rigidBody.gravityScale = gravity;
+        if (!other.CompareTag("WallStick") || tocandoParedStick) 
+            return;
+        
+        // Entro en wallstick
+        rigidBody.gravityScale = 0;
+        tocandoParedStick = true;
+        saltoEnActual = false;
+        tiempoCooldownStick = tiempoResistenciaStick;
+        rigidBody.velocity = new Vector2(0, -speedYStick);
     }
 
     /* -------------------------------------------------------------------------------- */
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("WallStick"))
-        {
-            tocandoParedStick = false;
-            rigidBody.gravityScale = gravity;
-        }
+        if (!other.CompareTag("WallStick")) 
+            return;
+        
+        // Salio de wallstick
+        tocandoParedStick = false;
+        rigidBody.gravityScale = gravity;
     }
 }
 

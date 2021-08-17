@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class Buttons : MonoBehaviour
 {
     // ReSharper disable once FieldCanBeMadeReadOnly.Local
+    // ReSharper disable once ConvertToConstant.Local
     int nivelACargar = 1;
 
     static PopUpsMenu codigoPopUpsMenu;
@@ -132,6 +133,11 @@ public class Buttons : MonoBehaviour
 
         // TODO | Agregar viaje hasta seleccionar nivel
         Debug.LogWarning("[Buttons] Falta implementar esta funcionalidad.");
+    }
+    
+    public void botonTutorial()
+    {
+        loadLevel(4);
     }
 
     #endregion

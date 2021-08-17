@@ -8,6 +8,8 @@ TagManager:
   - Jugador
   - Opciones
   - WallStick
+  - UpWallCollider
+  - DownWallCollider
   layers:
   - Default
   - TransparentFX
