@@ -103,6 +103,7 @@ public class ManejarMenu : MonoBehaviour
             textoBoton.text = comenzar;
 
             menu.SetActive(true);
+            panelMenu.SetActive(true); 
             menuActivo = true;
         }
 

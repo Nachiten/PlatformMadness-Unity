@@ -88,7 +88,7 @@ public class DoorManager : MonoBehaviour
             return;
         
         Debug.Log("La puerta esta ABIERTA");
-        levelLoader.cargarNivel(indexActual + 1);
+        levelLoader.cargarSiguienteNivel();
     }
 
     /* -------------------------------------------------------------------------------- */

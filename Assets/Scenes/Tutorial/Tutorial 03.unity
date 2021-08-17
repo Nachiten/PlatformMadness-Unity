@@ -944,7 +944,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Lo lograste!
 
-        Completaste el tutorial'
+        Completaste el tutorial!!'
       objectReference: {fileID: 0}
     - target: {fileID: 8467310711255082791, guid: fb039f6c9ce4d154d89a30492b3d6872, type: 3}
       propertyPath: m_Name

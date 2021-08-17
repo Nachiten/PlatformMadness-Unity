@@ -15,12 +15,16 @@ public class LevelLoader : MonoBehaviour
 
     int indexACargar;
 
+    int indexActual;
+    
     /* -------------------------------------------------------------------------------- */
 
     #region FuncionesInicio
 
     private void Awake()
     {
+        indexActual = SceneManager.GetActiveScene().buildIndex;
+        
         if (variablesAsignadas)
             return;
         
@@ -85,7 +89,6 @@ public class LevelLoader : MonoBehaviour
     
     public void cargarNivel(int index)
     {
-        //GameObject.Find("SoundManager").GetComponent<SoundManager>().reproducirSonido(1);
         indexACargar = index;
         textoNivel.text = "...";
 
@@ -123,6 +126,24 @@ public class LevelLoader : MonoBehaviour
     }
 
     /* -------------------------------------------------------------------------------- */
+
+    const int ultimoNivelIndex = 3, ultimoTutorialIndex = 6;
+
+    public void cargarSiguienteNivel()
+    {
+        switch (indexActual)
+        {
+            // Si estos en ultimo nivel, o ultimo tutorial regreso a inicio
+            case ultimoNivelIndex:
+            case ultimoTutorialIndex:
+                cargarNivel(0);
+                break;
+            // Sino, sigo al siguiente nivel
+            default:
+                cargarNivel(indexActual + 1);
+                break;
+        }
+    }
 
     public void salir() 
     {
