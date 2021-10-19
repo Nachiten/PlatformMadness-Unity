@@ -10,11 +10,7 @@
 #define MyAppAssocName MyAppName
 #define MyAppAssocExt ".myp"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
-; PATH EN PC ESCRITORIO
-#define PathProyecto "D:\Proyectos Unity\PlatformMadness" 
-; PATH EN NOTEBOOK
-; #define PathProyecto "C:\Programas Unity\Puzzle-Madness" 
-
+#define PathProyecto "C:\Proyectos Unity\PlatformMadness" 
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -37,7 +33,7 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
 OutputDir={#PathProyecto}\Builds\Installers
-OutputBaseFilename="PuzzleMadness{#MyAppVersion}Installer"
+OutputBaseFilename="PlatformMadness{#MyAppVersion}Installer"
 SetupIconFile={#PathProyecto}\Assets\Icon\Icon.ico
 Compression=lzma
 SolidCompression=yes
