@@ -123,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
         Collider2D checkeoDePiso = Physics2D.OverlapArea(pointACollider, pointBCollider, layer);
 
         // Si esta tocando el piso, puede saltar
+        // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
         if (checkeoDePiso != null) 
         {
             Debug.DrawLine(pointACollider, new Vector2(pointBCollider.x, pointACollider.y), Color.green, 5);

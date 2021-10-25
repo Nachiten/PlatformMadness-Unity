@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class DoorManager : MonoBehaviour
 {
@@ -21,47 +21,31 @@ public class DoorManager : MonoBehaviour
 
     void Awake()
     {
-        try
+        foreach (Transform unHijo in transform)
         {
-            foreach (Transform unHijo in transform)
+            switch (unHijo.gameObject.name)
             {
-                switch (unHijo.gameObject.name)
-                {
-                    case "DoorClosed":
-                        doorClosedObject = unHijo.gameObject;
-                        break;
-                    case "Lock":
-                        lockObject = unHijo.gameObject.GetComponent<SpriteRenderer>();
-                        break;
-                    case "LockBackground":
-                        lockBackground = unHijo.gameObject.GetComponent<SpriteRenderer>();
-                        break;
-                }
-            }
-            
-            colliderObject = GetComponent<BoxCollider2D>();
-
-            colliderObject.isTrigger = false;
-
-            soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-            levelLoader = GameObject.Find("GameManager").GetComponent<LevelLoader>();
-
-            if (doorClosedObject == null) 
-            {
-                throw new Exception("doorClosedObject");
-            }
-            if (lockObject == null)
-            {
-                throw new Exception("lockObject");
-            }
-            if (lockBackground == null)
-            {
-                throw new Exception("lockBackground");
+                case "DoorClosed":
+                    doorClosedObject = unHijo.gameObject;
+                    break;
+                case "Lock":
+                    lockObject = unHijo.gameObject.GetComponent<SpriteRenderer>();
+                    break;
+                case "LockBackground":
+                    lockBackground = unHijo.gameObject.GetComponent<SpriteRenderer>();
+                    break;
             }
         }
-        catch (Exception e) {
-            Debug.LogError("[DoorManager] Error al asignar variable: " + e.Message);
-        }
+        
+        colliderObject = GetComponent<BoxCollider2D>();
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        levelLoader = GameObject.Find("GameManager").GetComponent<LevelLoader>();
+        
+        Assert.IsNotNull(colliderObject);
+        Assert.IsNotNull(soundManager);
+        Assert.IsNotNull(levelLoader);
+        
+        colliderObject.isTrigger = false;
     }
 
     /* -------------------------------------------------------------------------------- */
