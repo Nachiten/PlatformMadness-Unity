@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 public class LeanTweenManager : MonoBehaviour
@@ -44,70 +45,37 @@ public class LeanTweenManager : MonoBehaviour
     {
         if (variablesSeteadas)
             return;
+        
+        // Objetos
+        menu = GameObject.Find("Menu");
+        menuPanel = GameObject.Find("PanelMenu");
+        menuOpciones = GameObject.Find("MenuOpciones");
+        menuCreditos = GameObject.Find("MenuCreditos");
 
-        try
-        {
-            // Objetos
-            menu = GameObject.Find("Menu");
-            menuPanel = GameObject.Find("PanelMenu");
-            menuOpciones = GameObject.Find("MenuOpciones");
-            menuCreditos = GameObject.Find("MenuCreditos");
+        // Botones
+        botonSalir = GameObject.Find("Salir");
+        botonComenzar = GameObject.Find("Comenzar");
+        botonOpciones = GameObject.Find("Opciones");
+        botonesInicio = GameObject.Find("Botones Inicio");
 
-            // Botones
-            botonSalir = GameObject.Find("Salir");
-            botonComenzar = GameObject.Find("Comenzar");
-            botonOpciones = GameObject.Find("Opciones");
-            botonesInicio = GameObject.Find("Botones Inicio");
+        // Botonces condicionales
+        botonVolverInicio = GameObject.Find("VolverAInicio");
+        botonSeleccionarNivel = GameObject.Find("Seleccionar Nivel");
 
-            // Botonces condicionales
-            botonVolverInicio = GameObject.Find("VolverAInicio");
-            botonSeleccionarNivel = GameObject.Find("Seleccionar Nivel");
-
-            if (menu == null) {
-                throw new Exception("menu");
-            }
-            if (menuPanel == null)
-            {
-                throw new Exception("menuPanel");
-            }
-            if (menuOpciones == null)
-            {
-                throw new Exception("menuOpciones");
-            }
-            if (menuCreditos == null)
-            {
-                throw new Exception("menuCreditos");
-            }
-            if (botonSalir == null)
-            {
-                throw new Exception("botonSalir");
-            }
-            if (botonComenzar == null)
-            {
-                throw new Exception("botonComenzar");
-            }
-            if (botonOpciones == null)
-            {
-                throw new Exception("botonOpciones");
-            }
-            if (botonesInicio == null)
-            {
-                throw new Exception("botonesInicio");
-            }
-            if (botonVolverInicio == null)
-            {
-                throw new Exception("botonVolverInicio");
-            }
-            if (botonSeleccionarNivel == null)
-            {
-                throw new Exception("botonSeleccionarNivel");
-            }
-
-            variablesSeteadas = true;
-        }
-        catch (Exception e){
-            Debug.LogError("[LeanTweenManager] Error al asignar variable: " + e.Message);
-        }
+        Assert.IsNotNull(menu);
+        Assert.IsNotNull(menuPanel);
+        Assert.IsNotNull(menuOpciones);
+        Assert.IsNotNull(menuCreditos);
+        
+        Assert.IsNotNull(botonSalir);
+        Assert.IsNotNull(botonComenzar);
+        Assert.IsNotNull(botonOpciones);
+        Assert.IsNotNull(botonesInicio);
+        
+        Assert.IsNotNull(botonVolverInicio);
+        Assert.IsNotNull(botonSeleccionarNivel);
+        
+        variablesSeteadas = true;
     }
 
     /* -------------------------------------------------------------------------------- */

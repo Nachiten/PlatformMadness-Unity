@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     /* -------------------------------------------------------------------------------- */
 
-    public static event Action pausarJuegoEvent, perderJuegoEvent;
+    public event Action pausarJuegoEvent, perderJuegoEvent;
     
     public void pausarJuego() 
     {

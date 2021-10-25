@@ -1,24 +1,29 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class CameraFollow : MonoBehaviour
 {
-    Transform target;
     public float smoothTime = 0.3f;
-    readonly Vector3 offset = new Vector3(0,0,-10);
-    Vector3 velocity = new Vector3(0,0,0);
+    
+    private Transform target;
+    
+    private readonly Vector3 offset = new Vector3(0,0,-10);
+    private Vector3 velocity = new Vector3(0,0,0);
 
     private bool perdio, pausa;
-    
+
+    private GameManager gameManager;
+
     private void Start()
     {
-        GameManager.pausarJuegoEvent += onPausarJuego;
-        GameManager.perderJuegoEvent += onPerderJuego;
+        gameManager.pausarJuegoEvent += onPausarJuego;
+        gameManager.perderJuegoEvent += onPerderJuego;
     }
     
     private void OnDestroy()
     {
-        GameManager.perderJuegoEvent -= onPerderJuego;
-        GameManager.pausarJuegoEvent -= onPausarJuego;
+        gameManager.perderJuegoEvent -= onPerderJuego;
+        gameManager.pausarJuegoEvent -= onPausarJuego;
     }
 
     private void onPerderJuego()
@@ -35,7 +40,11 @@ public class CameraFollow : MonoBehaviour
     
     void Awake()
     {
+        gameManager = GameManager.instance;
         target = GameObject.Find("Jugador").GetComponent<Transform>();
+        
+        Assert.IsNotNull(gameManager);
+        Assert.IsNotNull(target);
     }
 
     /* -------------------------------------------------------------------------------- */

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class DownWallColliderManager : MonoBehaviour
 {
@@ -10,11 +11,7 @@ public class DownWallColliderManager : MonoBehaviour
     {
         tileMapCollider = GameObject.Find("Tilemap_DownWall").GetComponent<CompositeCollider2D>();
 
-        if (tileMapCollider == null)
-        {
-            Debug.LogError("[DownWallColliderManager] No se encuentra el tilemap asociado");
-            return;
-        }
+        Assert.IsNotNull(tileMapCollider);
 
         tileMapCollider.isTrigger = true;
     }

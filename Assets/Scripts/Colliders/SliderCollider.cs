@@ -6,12 +6,16 @@ public class SliderCollider : MonoBehaviour
     private Rigidbody2D playerRigidBody;
 
     private bool perdio, pausa;
+
+    private GameManager gameManager;
     
     void Awake()
     {
+        gameManager = GameManager.instance;
         playerRigidBody = GameObject.Find("Jugador").GetComponent<Rigidbody2D>();
 
         Assert.IsNotNull(playerRigidBody);
+        Assert.IsNotNull(gameManager);
     }
 
     public float speed = 10;
@@ -26,14 +30,14 @@ public class SliderCollider : MonoBehaviour
     
     private void Start()
     {
-        GameManager.pausarJuegoEvent += onPausarJuego;
-        GameManager.perderJuegoEvent += onPerderJuego;
+        gameManager.pausarJuegoEvent += onPausarJuego;
+        gameManager.perderJuegoEvent += onPerderJuego;
     }
     
     private void OnDestroy()
     {
-        GameManager.pausarJuegoEvent -= onPausarJuego;
-        GameManager.perderJuegoEvent -= onPerderJuego;
+        gameManager.pausarJuegoEvent -= onPausarJuego;
+        gameManager.perderJuegoEvent -= onPerderJuego;
     }
 
     private void onPerderJuego()

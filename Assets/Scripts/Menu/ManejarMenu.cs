@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using UnityEngine.Assertions;
 
 public class ManejarMenu : MonoBehaviour
 {
@@ -38,48 +39,26 @@ public class ManejarMenu : MonoBehaviour
     {
         if (variablesAsignadas)
             return;
+        
+        menu = GameObject.Find("Menu");
+        panelMenu = GameObject.Find("PanelMenu");
+        opciones = GameObject.Find("MenuOpciones");
+        creditos = GameObject.Find("MenuCreditos");
 
-        try
-        {
-            menu = GameObject.Find("Menu");
-            panelMenu = GameObject.Find("PanelMenu");
-            opciones = GameObject.Find("MenuOpciones");
-            creditos = GameObject.Find("MenuCreditos");
+        textoBoton = GameObject.Find("TextoBotonComenzar").GetComponent<TMP_Text>();
 
-            textoBoton = GameObject.Find("TextoBotonComenzar").GetComponent<TMP_Text>();
+        tweenManager = GameObject.Find("Canvas Menu").GetComponent<LeanTweenManager>();
+        
+        Assert.IsNotNull(menu);
+        Assert.IsNotNull(panelMenu);
+        Assert.IsNotNull(opciones);
+        Assert.IsNotNull(creditos);
+        
+        Assert.IsNotNull(textoBoton);
+        
+        Assert.IsNotNull(tweenManager);
 
-            tweenManager = GameObject.Find("Canvas Menu").GetComponent<LeanTweenManager>();
-
-            if (menu == null) {
-                throw new Exception("menu");
-            }
-            if (panelMenu == null)
-            {
-                throw new Exception("panelMenu");
-            }
-            if (opciones == null)
-            {
-                throw new Exception("opciones");
-            }
-            if (creditos == null)
-            {
-                throw new Exception("creditos");
-            }
-            if (textoBoton == null)
-            {
-                throw new Exception("textoBoton");
-            }
-            if (tweenManager == null)
-            {
-                throw new Exception("tweenManager");
-            }
-
-            variablesAsignadas = true;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("[ManejarMenu] Error al asignar variable: " + e.Message);
-        }
+        variablesAsignadas = true;
     }
 
     /* -------------------------------------------------------------------------------- */
