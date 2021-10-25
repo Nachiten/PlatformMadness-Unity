@@ -7,13 +7,52 @@ public class PlayerMovement : MonoBehaviour
 
     float tiempoCooldownStick = 0;
     
-    bool pausa = false, tocandoParedStick = false, saltoEnActual = false;
+    bool pausa, tocandoParedStick, saltoEnActual, perdio;
     
     Rigidbody2D rigidBody;
 
     LayerMask layer;
 
     Vector2 ultimaVelocidad = Vector2.zero;
+    
+    /* -------------------------------------------------------------------------------- */
+
+    private void Start()
+    {
+        GameManager.pausarJuegoEvent += onPausarJuego;
+        GameManager.perderJuegoEvent += onPerderJuego;
+    }
+    
+    private void OnDestroy()
+    {
+        GameManager.pausarJuegoEvent -= onPausarJuego;
+        GameManager.perderJuegoEvent -= onPerderJuego;
+    }
+
+    private void onPerderJuego()
+    {
+        perdio = true;
+        rigidBody.velocity = Vector2.zero;
+        rigidBody.gravityScale = 0;
+    }
+    
+    private void onPausarJuego() {
+        pausa = !pausa;
+
+        if (pausa)
+        {
+            // Entro en pausa y guardo estado anterior
+            ultimaVelocidad = rigidBody.velocity;
+            rigidBody.velocity = Vector2.zero;
+            rigidBody.gravityScale = 0;
+        }
+        else 
+        {
+            // Salgo de pausa y restauro estado anterior
+            rigidBody.velocity = ultimaVelocidad;
+            rigidBody.gravityScale = gravity;
+        }
+    }
     
     /* -------------------------------------------------------------------------------- */
     
@@ -28,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (pausa)
+        if (pausa || perdio)
             return;
 
         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speedX, rigidBody.velocity.y);
@@ -41,9 +80,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /* -------------------------------------------------------------------------------- */
 
     void Update()
     {
+        if (pausa || perdio)
+            return;
+        
         if (tiempoCooldownStick <= 0 || rigidBody.gravityScale != 0)
             return;
         
@@ -87,27 +130,7 @@ public class PlayerMovement : MonoBehaviour
         saltoEnActual = true;
         return true;
     }
-
-    /* -------------------------------------------------------------------------------- */
     
-    public void manejarPausa() {
-        pausa = !pausa;
-
-        if (pausa)
-        {
-            // Entro en pausa y guardo estado anterior
-            ultimaVelocidad = rigidBody.velocity;
-            rigidBody.velocity = Vector2.zero;
-            rigidBody.gravityScale = 0;
-        }
-        else 
-        {
-            // Salgo de pausa y restauro estado anterior
-            rigidBody.velocity = ultimaVelocidad;
-            rigidBody.gravityScale = gravity;
-        }
-    }
-
     /* -------------------------------------------------------------------------------- */
     
     private void OnTriggerEnter2D(Collider2D other)

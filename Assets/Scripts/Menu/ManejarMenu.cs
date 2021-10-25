@@ -139,25 +139,20 @@ public class ManejarMenu : MonoBehaviour
         {
             // Abro el menu
             menu.SetActive(true);
-            tweenManager.abrirMenu();
+            tweenManager.abrirMenuPausa();
         }
         else 
         {
             // Cierro el menu
-            tweenManager.cerrarMenu();
+            tweenManager.cerrarMenuPausa();
         }
 
         // Cierro las opciones si estaban activas en ambos casos
-        if (opcionesActivas) 
-        {
-            tweenManager.cerrarOpciones();
-            opcionesActivas = false;
-        }
-
-        // Si no estoy en el menu
-        if (index != 0) {
-            GameManager.manejarPausa();
-        }
+        if (!opcionesActivas) 
+            return;
+        
+        tweenManager.cerrarOpciones();
+        opcionesActivas = false;
     }
 
     /* -------------------------------------------------------------------------------- */
@@ -166,14 +161,11 @@ public class ManejarMenu : MonoBehaviour
     {
         opcionesActivas = !opcionesActivas;
 
-        if (opcionesActivas) 
-        { 
+        if (opcionesActivas)
             tweenManager.abrirOpciones();
-        }
         else
-        { 
             tweenManager.cerrarOpciones();
-        }
+        
     }
 
     /* -------------------------------------------------------------------------------- */

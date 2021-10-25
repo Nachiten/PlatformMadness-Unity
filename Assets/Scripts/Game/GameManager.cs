@@ -1,15 +1,36 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    
     TMP_Text textoNivel;
     
     /* -------------------------------------------------------------------------------- */
+
+    #region singleton
     
+    void inicializarSingleton()
+    {
+        // Si ya hay un singleton que no soy yo
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+ 
+        instance = this;
+    }
+    
+    #endregion
+
     private void Awake()
     {
+        inicializarSingleton();
+        
         textoNivel = GameObject.Find("TextoNivel").GetComponent<TMP_Text>();
     }
 
@@ -23,9 +44,16 @@ public class GameManager : MonoBehaviour
     }
 
     /* -------------------------------------------------------------------------------- */
+
+    public static event Action pausarJuegoEvent, perderJuegoEvent;
     
-    public static void manejarPausa() 
+    public void pausarJuego() 
     {
-        GameObject.Find("Jugador").GetComponent<PlayerMovement>().manejarPausa();
+        pausarJuegoEvent?.Invoke();
+    }
+    
+    public void perderJuego()
+    {
+        perderJuegoEvent?.Invoke();
     }
 }

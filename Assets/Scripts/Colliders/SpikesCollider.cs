@@ -1,13 +1,12 @@
-using System;
 using UnityEngine;
 
-public class SpikesCollision : MonoBehaviour
+public class SpikesCollider : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (!other.gameObject.CompareTag("Jugador"))
             return;
         
-        Debug.Log("Tocaste un pincho!!");
+        GameManager.instance.perderJuego();
     }
 }

@@ -147,8 +147,10 @@ public class LeanTweenManager : MonoBehaviour
     // ----------------------------- ANIMACION ARBRIR MENU ----------------------------- //
     /* --------------------------------------------------------------------------------- */
 
-    public void abrirMenu()
+    public void abrirMenuPausa()
     {
+        llamarPausarGameManager();
+        
         menuPanel.SetActive(false);
 
         foreach (GameObject boton in botones) {
@@ -209,7 +211,7 @@ public class LeanTweenManager : MonoBehaviour
     // ----------------------------- ANIMACION CERRAR MENU ----------------------------- // 
     /* --------------------------------------------------------------------------------- */
 
-    public void cerrarMenu()
+    public void cerrarMenuPausa()
     {
         animacionEnEjecucion = true;
 
@@ -251,6 +253,15 @@ public class LeanTweenManager : MonoBehaviour
     {
         animacionEnEjecucion = false;
         menu.SetActive(false);
+        
+        llamarPausarGameManager();
+    }
+
+    private void llamarPausarGameManager()
+    {
+        // Si no estoy en el menu
+        if (indexActual != 0) 
+            GameManager.instance.pausarJuego();
     }
 
     #endregion
