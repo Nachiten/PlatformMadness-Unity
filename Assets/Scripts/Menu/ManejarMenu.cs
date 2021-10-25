@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System;
 using UnityEngine.Assertions;
 
 public class ManejarMenu : MonoBehaviour
