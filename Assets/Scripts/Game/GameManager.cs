@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    
+
     TMP_Text textoNivel;
     
     /* -------------------------------------------------------------------------------- */
 
     #region singleton
     
-    void inicializarSingleton()
+    private void inicializarSingleton()
     {
         // Si ya hay un singleton que no soy yo
         if (instance != null && instance != this)
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
- 
+        
         instance = this;
     }
     

@@ -93,6 +93,7 @@ public class Controllers : MonoBehaviour
         }
 
         // Seteo la musica elegida previamente
+        // ReSharper disable once InvertIf
         if (PlayerPrefs.HasKey("MusicLevel"))
         {
             float musicLevel = PlayerPrefs.GetFloat("MusicLevel");

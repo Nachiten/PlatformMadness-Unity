@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,16 +18,21 @@ public class PlayerMovement : MonoBehaviour
     
     /* -------------------------------------------------------------------------------- */
 
+    private GameManager gameManager;
+
     private void Start()
     {
-        GameManager.pausarJuegoEvent += onPausarJuego;
-        GameManager.perderJuegoEvent += onPerderJuego;
+        gameManager = GameManager.instance;
+        Assert.IsNotNull(gameManager);
+        
+        gameManager.pausarJuegoEvent += onPausarJuego;
+        gameManager.perderJuegoEvent += onPerderJuego;
     }
     
     private void OnDestroy()
     {
-        GameManager.pausarJuegoEvent -= onPausarJuego;
-        GameManager.perderJuegoEvent -= onPerderJuego;
+        gameManager.pausarJuegoEvent -= onPausarJuego;
+        gameManager.perderJuegoEvent -= onPerderJuego;
     }
 
     private void onPerderJuego()
@@ -58,9 +64,14 @@ public class PlayerMovement : MonoBehaviour
     
     void Awake()
     {
+
         rigidBody = GetComponent<Rigidbody2D>();
+        Assert.IsNotNull(rigidBody);
+        
         rigidBody.gravityScale = gravity;
+        
         layer = LayerMask.GetMask("Mapa");
+        
     }
 
     /* -------------------------------------------------------------------------------- */

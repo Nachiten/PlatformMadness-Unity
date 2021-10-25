@@ -16,6 +16,9 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameManager.instance;
+        Assert.IsNotNull(gameManager);
+        
         gameManager.pausarJuegoEvent += onPausarJuego;
         gameManager.perderJuegoEvent += onPerderJuego;
     }
@@ -40,10 +43,7 @@ public class CameraFollow : MonoBehaviour
     
     void Awake()
     {
-        gameManager = GameManager.instance;
         target = GameObject.Find("Jugador").GetComponent<Transform>();
-        
-        Assert.IsNotNull(gameManager);
         Assert.IsNotNull(target);
     }
 

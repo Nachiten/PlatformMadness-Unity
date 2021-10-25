@@ -1,13 +1,11 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DoorManager : MonoBehaviour
 {
     public bool esPuertaAlSiguienteNivel = false;
     
-    SpriteRenderer lockObject;
-    SpriteRenderer lockBackground;
+    SpriteRenderer lockObject, lockBackground;
     GameObject doorClosedObject;
     SoundManager soundManager;
 
@@ -15,11 +13,7 @@ public class DoorManager : MonoBehaviour
 
     LevelLoader levelLoader;
 
-    int indexActual;
-    
-    const float animationTime = 0.3f;
-    const float animationsDelay = 0.6f;
-    const float alphaFinal = 0.35f;
+    const float animationTime = 0.3f, animationsDelay = 0.6f, alphaFinal = 0.35f;
 
     readonly Color backgroundColor = new Color(200,200,200);
 
@@ -51,8 +45,6 @@ public class DoorManager : MonoBehaviour
 
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
             levelLoader = GameObject.Find("GameManager").GetComponent<LevelLoader>();
-
-            indexActual = SceneManager.GetActiveScene().buildIndex;
 
             if (doorClosedObject == null) 
             {

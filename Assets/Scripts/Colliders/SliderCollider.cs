@@ -11,11 +11,8 @@ public class SliderCollider : MonoBehaviour
     
     void Awake()
     {
-        gameManager = GameManager.instance;
         playerRigidBody = GameObject.Find("Jugador").GetComponent<Rigidbody2D>();
-
         Assert.IsNotNull(playerRigidBody);
-        Assert.IsNotNull(gameManager);
     }
 
     public float speed = 10;
@@ -30,6 +27,9 @@ public class SliderCollider : MonoBehaviour
     
     private void Start()
     {
+        gameManager = GameManager.instance;
+        Assert.IsNotNull(gameManager);
+        
         gameManager.pausarJuegoEvent += onPausarJuego;
         gameManager.perderJuegoEvent += onPerderJuego;
     }

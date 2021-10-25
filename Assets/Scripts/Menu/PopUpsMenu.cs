@@ -68,6 +68,7 @@ public class PopUpsMenu : MonoBehaviour
             Debug.LogError("[PopUpsMenu] Error al asignar variable: " + e.Message);
         }
 
+        // ReSharper disable once MergeIntoNegatedPattern
         if (texturas == null || texturas.Length != 5) {
             Debug.LogError("[PopUpsMenu] No estan seteadas correcatmente todas las variables");
         }

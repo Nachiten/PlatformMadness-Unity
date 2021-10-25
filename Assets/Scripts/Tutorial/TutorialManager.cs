@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class TutorialManager : MonoBehaviour
 {
-    List<GameObject> textos = new List<GameObject>();
+    private readonly List<GameObject> textos = new List<GameObject>();
+    
+    float alturaCompleta;
+    const float tiempoAnimacion = 0.6f;
     
     void Awake()
     {
@@ -17,22 +21,19 @@ public class TutorialManager : MonoBehaviour
             textos.Add(objectoEncontrado);
             index++;
         }
-        
-        
-        //Debug.Log("Cantidad de texto tutorial: " + textos.Count);
     }
 
     public void mostrarTexto(int indexTexto)
     {
         GameObject objetoAMostrar = textos[indexTexto];
         
+        Assert.IsNotNull(objetoAMostrar);
+        
         if (!objetoAMostrar.activeSelf)
             ejecutarAnimacion(objetoAMostrar);
     }
 
-    float alturaCompleta;
-    const float tiempoAnimacion = 0.6f;
-    
+
     void ejecutarAnimacion(GameObject objeto)
     {
         alturaCompleta = objeto.transform.localScale.y;

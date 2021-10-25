@@ -105,6 +105,7 @@ public class EditorTools : EditorWindow
         
         EditorGUILayout.LabelField("Borrar Todas las Keys:");
 
+        // ReSharper disable once InvertIf
         if (GUILayout.Button("BORRAR TODO"))
         {
             PlayerPrefs.DeleteAll();
