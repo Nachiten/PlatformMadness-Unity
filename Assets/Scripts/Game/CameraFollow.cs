@@ -19,22 +19,22 @@ public class CameraFollow : MonoBehaviour
         gameManager = GameManager.instance;
         Assert.IsNotNull(gameManager);
         
-        gameManager.pausarJuegoEvent += onPausarJuego;
-        gameManager.perderJuegoEvent += onPerderJuego;
+        gameManager.pauseGameEvent += onPauseGame;
+        gameManager.lostGameEvent += onLostGame;
     }
     
     private void OnDestroy()
     {
-        gameManager.perderJuegoEvent -= onPerderJuego;
-        gameManager.pausarJuegoEvent -= onPausarJuego;
+        gameManager.lostGameEvent -= onLostGame;
+        gameManager.pauseGameEvent -= onPauseGame;
     }
 
-    private void onPerderJuego()
+    private void onLostGame()
     {
         perdio = true;
     }
     
-    private void onPausarJuego()
+    private void onPauseGame()
     {
         pausa = !pausa;
     }

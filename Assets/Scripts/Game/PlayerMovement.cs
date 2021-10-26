@@ -3,8 +3,10 @@ using UnityEngine.Assertions;
 
 public class PlayerMovement : MonoBehaviour
 {
-    const float speedX = 8f, speedY = 14f, gravity = 2.7f, offsetXCollider = 0.55f, offsetYCollider = 0.09f, 
+    const float speedX = 8f, speedY = 14f, offsetXCollider = 0.55f, offsetYCollider = 0.09f, 
         tiempoResistenciaStick = 0.85f, speedYStick = 0.5f;
+
+    private const float gravity = 2.7f;
 
     float tiempoCooldownStick = 0;
     
@@ -25,24 +27,24 @@ public class PlayerMovement : MonoBehaviour
         gameManager = GameManager.instance;
         Assert.IsNotNull(gameManager);
         
-        gameManager.pausarJuegoEvent += onPausarJuego;
-        gameManager.perderJuegoEvent += onPerderJuego;
+        gameManager.pauseGameEvent += onPauseGame;
+        gameManager.lostGameEvent += onLostGame;
     }
     
     private void OnDestroy()
     {
-        gameManager.pausarJuegoEvent -= onPausarJuego;
-        gameManager.perderJuegoEvent -= onPerderJuego;
+        gameManager.pauseGameEvent -= onPauseGame;
+        gameManager.lostGameEvent -= onLostGame;
     }
 
-    private void onPerderJuego()
+    private void onLostGame()
     {
         perdio = true;
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = 0;
     }
     
-    private void onPausarJuego() {
+    private void onPauseGame() {
         pausa = !pausa;
 
         if (pausa)

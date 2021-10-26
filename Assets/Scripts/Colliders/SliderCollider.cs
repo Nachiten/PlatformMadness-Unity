@@ -8,9 +8,11 @@ public class SliderCollider : MonoBehaviour
     private GameManager gameManager;
     
     private bool perdio, pausa;
-    private const float xSpeed = 350f, ySpeed = 150f;
+    private const float xSpeed = 350f, ySpeed = 150f, gravity = 2.7f;
     private const float maxXSpeed = 50f, maxYSpeed = 6.5f;
-
+    
+    private static int amountOfTriggers;
+    
     public enum Orientacion
     {
         Derecha,
@@ -23,17 +25,31 @@ public class SliderCollider : MonoBehaviour
 
     void Awake()
     {
+        amountOfTriggers = 0;
+        
         playerRigidBody = GameObject.Find("Jugador").GetComponent<Rigidbody2D>();
         Assert.IsNotNull(playerRigidBody);
     }
     
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        amountOfTriggers++;
+        playerRigidBody.gravityScale = 0;
+    }
+    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        amountOfTriggers--;
+        if (amountOfTriggers <= 0)
+            playerRigidBody.gravityScale = gravity;
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.gameObject.CompareTag("Jugador") || perdio || pausa)
             return;
 
-        float yForce = 0;
-        float xForce = 0;
+        int yForce = 0, xForce = 0;
 
         switch (oritorientacionSlider)
         {
@@ -53,7 +69,7 @@ public class SliderCollider : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (Mathf.Abs(playerRigidBody.velocity.y) > maxYSpeed)
+        if (yForce == 1 && playerRigidBody.velocity.y > maxYSpeed || yForce == -1 && playerRigidBody.velocity.y < -maxYSpeed)
         {
             yForce = 0;
         }
@@ -66,22 +82,24 @@ public class SliderCollider : MonoBehaviour
         gameManager = GameManager.instance;
         Assert.IsNotNull(gameManager);
         
-        gameManager.pausarJuegoEvent += onPausarJuego;
-        gameManager.perderJuegoEvent += onPerderJuego;
+        gameManager.pauseGameEvent += onPauseGame;
+        gameManager.lostGameEvent += onLostGame;
     }
     
     private void OnDestroy()
     {
-        gameManager.pausarJuegoEvent -= onPausarJuego;
-        gameManager.perderJuegoEvent -= onPerderJuego;
+        gameManager.pauseGameEvent -= onPauseGame;
+        gameManager.lostGameEvent -= onLostGame;
     }
 
-    private void onPerderJuego()
+    private void onLostGame()
     {
         perdio = true;
+        playerRigidBody.gravityScale = 0;
+        playerRigidBody.velocity = Vector2.zero;
     }
     
-    private void onPausarJuego() 
+    private void onPauseGame() 
     {
         pausa = !pausa;
     }

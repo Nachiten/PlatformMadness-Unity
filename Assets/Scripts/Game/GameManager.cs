@@ -45,15 +45,15 @@ public class GameManager : MonoBehaviour
 
     /* -------------------------------------------------------------------------------- */
 
-    public event Action pausarJuegoEvent, perderJuegoEvent;
+    public event Action pauseGameEvent, lostGameEvent;
     
     public void pausarJuego() 
     {
-        pausarJuegoEvent?.Invoke();
+        pauseGameEvent?.Invoke();
     }
     
     public void perderJuego()
     {
-        perderJuegoEvent?.Invoke();
+        lostGameEvent?.Invoke();
     }
 }
