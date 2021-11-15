@@ -193,8 +193,15 @@ public class LevelLoader : MonoBehaviour
     void mostrarRestoPanelCarga() 
     {
         restoPanelCarga.SetActive(true);
+        Debug.Log("Se muestra el panel carga");
         LeanTween.scaleY(restoPanelCarga, 1, tiempoAnimacionRestoPanel).setOnComplete(completarCargaNivel);
     }
+
+    private void OnDisable()
+    {
+        Debug.Log("onDisable");
+    }
+
 
     void completarCargaNivel()
     {
@@ -206,6 +213,7 @@ public class LevelLoader : MonoBehaviour
         // Si existe la escena
         else
         {
+            Debug.Log("Cargando escena: " + indexACargar);
             StartCoroutine(cargarAsincronizadamente());
         }
     }
